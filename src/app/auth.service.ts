@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthResponse, createClient } from '@supabase/supabase-js';
+import { AuthResponse, createClient, OAuthResponse } from '@supabase/supabase-js';
 import { environment } from '../environments/environment.development';
 import { from, Observable } from 'rxjs';
 
@@ -25,4 +25,18 @@ export class AuthService {
     });
     return from(promise)
   }
+
+  signInWithGoogle(): Observable<OAuthResponse> {
+  const promise = this.supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
+      redirectTo: 'http://localhost:4200/'
+    },
+  });
+  return from(promise)
+}
 }
