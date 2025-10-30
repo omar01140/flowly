@@ -1,4 +1,4 @@
-<div class="bg-gray-50 h-screen relative overflow-hidden">
+<div class="bg-gray-50 h-screen relative">
   <nav class="flex justify-between p-6 pb-0">
     <div>
       <div class="flex items-center">
@@ -71,7 +71,11 @@
         </div>
       </div>
       <!-- start form -->
-      <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="flex flex-col gap-5 relative -top-5">
+      <form
+        #form="ngForm"
+        (ngSubmit)="onSubmit(form)"
+        class="flex flex-col gap-1 relative -top-5"
+      >
         <!-- full name -->
         @if (!isLogin) {
         <div class="flex flex-col">
@@ -92,7 +96,11 @@
                 <g filter="url(#filter0_d_15_82)">
                   <path
                     d="M14.3365 12.3466L14.0765 11.9195C13.9082 12.022 13.8158 12.2137 13.8405 12.4092C13.8651 12.6046 14.0022 12.7674 14.1907 12.8249L14.3365 12.3466ZM9.6634 12.3466L9.80923 12.8249C9.99769 12.7674 10.1348 12.6046 10.1595 12.4092C10.1841 12.2137 10.0917 12.022 9.92339 11.9195L9.6634 12.3466ZM4.06161 19.002L3.56544 18.9402L4.06161 19.002ZM19.9383 19.002L20.4345 18.9402L19.9383 19.002ZM16 8.5C16 9.94799 15.2309 11.2168 14.0765 11.9195L14.5965 12.7737C16.0365 11.8971 17 10.3113 17 8.5H16ZM12 4.5C14.2091 4.5 16 6.29086 16 8.5H17C17 5.73858 14.7614 3.5 12 3.5V4.5ZM7.99996 8.5C7.99996 6.29086 9.79082 4.5 12 4.5V3.5C9.23854 3.5 6.99996 5.73858 6.99996 8.5H7.99996ZM9.92339 11.9195C8.76904 11.2168 7.99996 9.948 7.99996 8.5H6.99996C6.99996 10.3113 7.96342 11.8971 9.40342 12.7737L9.92339 11.9195ZM9.51758 11.8683C6.36083 12.8309 3.98356 15.5804 3.56544 18.9402L4.55778 19.0637C4.92638 16.1018 7.02381 13.6742 9.80923 12.8249L9.51758 11.8683ZM3.56544 18.9402C3.45493 19.8282 4.19055 20.5 4.99996 20.5V19.5C4.70481 19.5 4.53188 19.2719 4.55778 19.0637L3.56544 18.9402ZM4.99996 20.5H19V19.5H4.99996V20.5ZM19 20.5C19.8094 20.5 20.545 19.8282 20.4345 18.9402L19.4421 19.0637C19.468 19.2719 19.2951 19.5 19 19.5V20.5ZM20.4345 18.9402C20.0164 15.5804 17.6391 12.8309 14.4823 11.8683L14.1907 12.8249C16.9761 13.6742 19.0735 16.1018 19.4421 19.0637L20.4345 18.9402Z"
-                    class="fill-black/60"
+                    [ngClass]="
+                      name.invalid && name.dirty && name.touched
+                        ? 'fill-red-600'
+                        : 'fill-black/60'
+                    "
                   />
                 </g>
               </g>
@@ -137,13 +145,62 @@
               </defs>
             </svg>
             <input
-              class="text-sm border border-black/40 rounded-md min-w-full w-[360px] h-10 pl-10 outline-0 hover:border-black/60 focus:border-black/60 transition duration-250"
+              class="text-sm border rounded-md min-w-full w-[360px] h-10 pl-10 outline-0 transition duration-250"
+              [ngClass]="
+                name.invalid && name.dirty && name.touched
+                  ? 'border-red-600'
+                  : 'border-black/40 hover:border-black/60 focus:border-black/60'
+              "
               type="text"
               name="name"
               ngModel
               id="name"
               placeholder="Omar Eltantawy"
+              required
+              #name="ngModel"
             />
+          </div>
+          <div
+            class="text-red-600 text-[10px] min-h-4 ml-1 flex items-center gap-1"
+          >
+            @if (name.invalid && name.dirty && name.touched) {
+            <svg
+              id="Layer_1"
+              class="w-3"
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 122.89 111.55"
+            >
+              <defs>
+                <style>
+                  .cls-1 {
+                    fill: #b71616;
+                  }
+                  .cls-2 {
+                    fill: #e21b1b;
+                    fill-rule: evenodd;
+                  }
+                  .cls-3 {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <title>red-alert</title>
+              <path
+                class="cls-1"
+                d="M2.35,84.43,45.29,10.2l.17-.27h0a22.92,22.92,0,0,1,7-7.23A17,17,0,0,1,61.58,0a16.78,16.78,0,0,1,9.11,2.69,22.79,22.79,0,0,1,7,7.26c.13.21.25.42.36.64l42.24,73.34.23.44h0a22.22,22.22,0,0,1,2.37,10.19,17.59,17.59,0,0,1-2.16,8.35,16,16,0,0,1-6.94,6.61l-.58.26a21.34,21.34,0,0,1-9.11,1.74v0H17.62c-.23,0-.44,0-.66,0a18.07,18.07,0,0,1-6.2-1.15A16.46,16.46,0,0,1,3,104.26a17.59,17.59,0,0,1-3-9.58,23,23,0,0,1,1.57-8.74,8.24,8.24,0,0,1,.77-1.51Z"
+              />
+              <path
+                class="cls-2"
+                d="M9,88.76l43.15-74.6c5.23-8.25,13.53-8.46,18.87,0l42.44,73.7c3.38,6.81,1.7,16-9.34,15.77H17.62c-7.27.18-12-6.19-8.64-14.87Z"
+              />
+              <path
+                class="cls-3"
+                d="M57.57,82.7a5.51,5.51,0,0,1,3.48-1.58,5.75,5.75,0,0,1,2.4.35,5.82,5.82,0,0,1,2,1.31,5.53,5.53,0,0,1,1.62,3.55,6.05,6.05,0,0,1-.08,1.4,5.54,5.54,0,0,1-5.64,4.6,5.67,5.67,0,0,1-2.27-.52,5.56,5.56,0,0,1-2.82-2.94,5.65,5.65,0,0,1-.35-1.27,5.83,5.83,0,0,1-.06-1.31h0a6.19,6.19,0,0,1,.57-2,4.57,4.57,0,0,1,1.13-1.56Zm8.16-10.24c-.2,4.79-8.31,4.8-8.5,0-.82-8.21-2.92-29.39-2.85-37.1.07-2.38,2-3.79,4.56-4.33a12.83,12.83,0,0,1,5,0c2.61.56,4.65,2,4.65,4.44v.24L65.73,72.46Z"
+              />
+            </svg>
+            <p>Full name required!</p>
+            }
           </div>
         </div>
         }
@@ -170,7 +227,11 @@
               <g id="SVGRepo_iconCarrier">
                 <path
                   d="M3 8L8.44992 11.6333C9.73295 12.4886 10.3745 12.9163 11.0678 13.0825C11.6806 13.2293 12.3194 13.2293 12.9322 13.0825C13.6255 12.9163 14.2671 12.4886 15.5501 11.6333L21 8M6.2 19H17.8C18.9201 19 19.4802 19 19.908 18.782C20.2843 18.5903 20.5903 18.2843 20.782 17.908C21 17.4802 21 16.9201 21 15.8V8.2C21 7.0799 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V15.8C3 16.9201 3 17.4802 3.21799 17.908C3.40973 18.2843 3.71569 18.5903 4.09202 18.782C4.51984 19 5.07989 19 6.2 19Z"
-                  class="stroke-black/60"
+                  [ngClass]="
+                    email.invalid && email.dirty && email.touched
+                      ? 'stroke-red-600'
+                      : 'stroke-black/60'
+                  "
                   stroke-width="1.5"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -178,13 +239,63 @@
               </g>
             </svg>
             <input
-              class="text-sm border border-black/40 rounded-md min-w-full w-[360px] h-10 pl-10 outline-0 hover:border-black/60 focus:border-black/60 transition duration-250"
+              class="text-sm border rounded-md min-w-full w-[360px] h-10 pl-10 outline-0 transition duration-250"
+              [ngClass]="
+                email.invalid && email.dirty && email.touched
+                  ? 'border-red-600'
+                  : 'border-black/40 hover:border-black/60 focus:border-black/60'
+              "
               type="email"
               name="email"
               ngModel
               id="email"
               [placeholder]="isLogin ? 'Enter your email' : 'example@site.com'"
+              email
+              required
+              #email="ngModel"
             />
+          </div>
+          <div
+            class="text-red-600 text-[10px] min-h-4 ml-1 flex items-center gap-1"
+          >
+            @if (email.invalid && email.dirty && email.touched) {
+            <svg
+              id="Layer_1"
+              class="w-3"
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 122.89 111.55"
+            >
+              <defs>
+                <style>
+                  .cls-1 {
+                    fill: #b71616;
+                  }
+                  .cls-2 {
+                    fill: #e21b1b;
+                    fill-rule: evenodd;
+                  }
+                  .cls-3 {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <title>red-alert</title>
+              <path
+                class="cls-1"
+                d="M2.35,84.43,45.29,10.2l.17-.27h0a22.92,22.92,0,0,1,7-7.23A17,17,0,0,1,61.58,0a16.78,16.78,0,0,1,9.11,2.69,22.79,22.79,0,0,1,7,7.26c.13.21.25.42.36.64l42.24,73.34.23.44h0a22.22,22.22,0,0,1,2.37,10.19,17.59,17.59,0,0,1-2.16,8.35,16,16,0,0,1-6.94,6.61l-.58.26a21.34,21.34,0,0,1-9.11,1.74v0H17.62c-.23,0-.44,0-.66,0a18.07,18.07,0,0,1-6.2-1.15A16.46,16.46,0,0,1,3,104.26a17.59,17.59,0,0,1-3-9.58,23,23,0,0,1,1.57-8.74,8.24,8.24,0,0,1,.77-1.51Z"
+              />
+              <path
+                class="cls-2"
+                d="M9,88.76l43.15-74.6c5.23-8.25,13.53-8.46,18.87,0l42.44,73.7c3.38,6.81,1.7,16-9.34,15.77H17.62c-7.27.18-12-6.19-8.64-14.87Z"
+              />
+              <path
+                class="cls-3"
+                d="M57.57,82.7a5.51,5.51,0,0,1,3.48-1.58,5.75,5.75,0,0,1,2.4.35,5.82,5.82,0,0,1,2,1.31,5.53,5.53,0,0,1,1.62,3.55,6.05,6.05,0,0,1-.08,1.4,5.54,5.54,0,0,1-5.64,4.6,5.67,5.67,0,0,1-2.27-.52,5.56,5.56,0,0,1-2.82-2.94,5.65,5.65,0,0,1-.35-1.27,5.83,5.83,0,0,1-.06-1.31h0a6.19,6.19,0,0,1,.57-2,4.57,4.57,0,0,1,1.13-1.56Zm8.16-10.24c-.2,4.79-8.31,4.8-8.5,0-.82-8.21-2.92-29.39-2.85-37.1.07-2.38,2-3.79,4.56-4.33a12.83,12.83,0,0,1,5,0c2.61.56,4.65,2,4.65,4.44v.24L65.73,72.46Z"
+              />
+            </svg>
+            <p>Email required!</p>
+            }
           </div>
         </div>
         <!-- password -->
@@ -208,7 +319,11 @@
               <g id="SVGRepo_iconCarrier">
                 <path
                   d="M12 14.5V16.5M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288"
-                  class="stroke-black/60"
+                  [ngClass]="
+                    pass.invalid && pass.dirty && pass.touched
+                      ? 'stroke-red-600'
+                      : 'stroke-black/60'
+                  "
                   stroke-width="1.5"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -216,47 +331,76 @@
               </g>
             </svg>
             <input
-              class="text-sm border border-black/40 rounded-md min-w-full w-[360px] h-10 pl-10 outline-0 hover:border-black/60 focus:border-black/60 transition duration-250"
+              class="text-sm border rounded-md min-w-full w-[360px] h-10 pl-10 outline-0 transition duration-250"
+              [ngClass]="
+                pass.invalid && pass.dirty && pass.touched
+                  ? 'border-red-600'
+                  : 'border-black/40 hover:border-black/60 focus:border-black/60'
+              "
               type="password"
               name="password"
               ngModel
               id="password"
               [placeholder]="isLogin ? 'Enter password' : 'Minimum 8 Character'"
+              required
+              minlength="8"
+              #pass="ngModel"
             />
+          </div>
+          <div
+            class="text-red-600 text-[10px] min-h-4 ml-1 flex items-center gap-1"
+          >
+            @if (pass.invalid && pass.dirty && pass.touched) {
+            <svg
+              id="Layer_1"
+              class="w-3"
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 122.89 111.55"
+            >
+              <defs>
+                <style>
+                  .cls-1 {
+                    fill: #b71616;
+                  }
+                  .cls-2 {
+                    fill: #e21b1b;
+                    fill-rule: evenodd;
+                  }
+                  .cls-3 {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <title>red-alert</title>
+              <path
+                class="cls-1"
+                d="M2.35,84.43,45.29,10.2l.17-.27h0a22.92,22.92,0,0,1,7-7.23A17,17,0,0,1,61.58,0a16.78,16.78,0,0,1,9.11,2.69,22.79,22.79,0,0,1,7,7.26c.13.21.25.42.36.64l42.24,73.34.23.44h0a22.22,22.22,0,0,1,2.37,10.19,17.59,17.59,0,0,1-2.16,8.35,16,16,0,0,1-6.94,6.61l-.58.26a21.34,21.34,0,0,1-9.11,1.74v0H17.62c-.23,0-.44,0-.66,0a18.07,18.07,0,0,1-6.2-1.15A16.46,16.46,0,0,1,3,104.26a17.59,17.59,0,0,1-3-9.58,23,23,0,0,1,1.57-8.74,8.24,8.24,0,0,1,.77-1.51Z"
+              />
+              <path
+                class="cls-2"
+                d="M9,88.76l43.15-74.6c5.23-8.25,13.53-8.46,18.87,0l42.44,73.7c3.38,6.81,1.7,16-9.34,15.77H17.62c-7.27.18-12-6.19-8.64-14.87Z"
+              />
+              <path
+                class="cls-3"
+                d="M57.57,82.7a5.51,5.51,0,0,1,3.48-1.58,5.75,5.75,0,0,1,2.4.35,5.82,5.82,0,0,1,2,1.31,5.53,5.53,0,0,1,1.62,3.55,6.05,6.05,0,0,1-.08,1.4,5.54,5.54,0,0,1-5.64,4.6,5.67,5.67,0,0,1-2.27-.52,5.56,5.56,0,0,1-2.82-2.94,5.65,5.65,0,0,1-.35-1.27,5.83,5.83,0,0,1-.06-1.31h0a6.19,6.19,0,0,1,.57-2,4.57,4.57,0,0,1,1.13-1.56Zm8.16-10.24c-.2,4.79-8.31,4.8-8.5,0-.82-8.21-2.92-29.39-2.85-37.1.07-2.38,2-3.79,4.56-4.33a12.83,12.83,0,0,1,5,0c2.61.56,4.65,2,4.65,4.44v.24L65.73,72.46Z"
+              />
+            </svg>
+            <p>Password must be 8 characters or longer!</p>
+            }
           </div>
         </div>
         <!-- submit -->
         <button
-          class="w-[360px] h-[50px] rounded-xl text-center text-white text-sm font-bold bg-blue-500 transition duration-250 hover:bg-blue-600 cursor-pointer mt-2"
+          class="w-[360px] h-[50px] rounded-xl text-center text-sm text-white font-bold bg-blue-500 transition duration-250 hover:bg-blue-600 cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed mt-2"
+          [disabled]="form.invalid"
           type="submit"
         >
           {{ isLogin ? "Log In" : "Play with Flowly" }}
         </button>
       </form>
+      <!-- End form -->
     </div>
   </div>
-  <img class="w-full absolute bottom-0 max-h-96" src="cov.png" alt="" />
-  <!-- <svg
-    width="100%"
-    height="100%"
-    id="svg"
-    viewBox="0 0 1440 590"
-    xmlns="http://www.w3.org/2000/svg"
-    class="absolute -bottom-32 transition duration-300 ease-in-out delay-150"
-  >
-    <defs>
-      <linearGradient id="gradient" x1="24%" y1="92%" x2="76%" y2="8%">
-        <stop offset="5%" stop-color="#8ed1fc"></stop>
-        <stop offset="95%" stop-color="#0693e3"></stop>
-      </linearGradient>
-    </defs>
-    <path
-      d="M 0,600 L 0,300 C 117.46666666666664,370.6666666666667 234.93333333333328,441.33333333333337 404,411 C 573.0666666666667,380.66666666666663 793.7333333333333,249.33333333333331 975,189 C 1156.2666666666667,128.66666666666669 1298.1333333333332,139.33333333333334 1440,150 L 1440,600 L 0,600 Z"
-      stroke="none"
-      stroke-width="0"
-      fill="url(#gradient)"
-      fill-opacity="1"
-      class="transition-all duration-300 ease-in-out delay-150 path-0"
-    ></path>
-  </svg> -->
+  <img class="w-full fixed bottom-0 max-h-96" src="cov.png" alt="" />
 </div>
