@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { AuthService } from '../auth.service';
 import { NgClass } from '@angular/common';
+
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -11,12 +12,19 @@ import { NgClass } from '@angular/common';
   styleUrl: './auth.component.css',
 })
 export class AuthComponent {
-  isLogin = false;
   authService = inject(AuthService);
+
+  private form = viewChild<NgForm>('form');
+  User_already_registered = signal(false);
+  isLogin = false;
+  emailErr: string = `This Email is already registered`;
 
   onSwitch() {
     this.isLogin = !this.isLogin;
+    this.User_already_registered.set(false);
+    this.form()?.reset();
   }
+
   signInWithGoogle() {
     this.authService.signInWithGoogle().subscribe((result) => {
       if (result.error) {
@@ -26,6 +34,7 @@ export class AuthComponent {
       }
     });
   }
+
   onSubmit(formData: NgForm) {
     if (formData.invalid) {
       return;
@@ -35,7 +44,9 @@ export class AuthComponent {
     const name = formData.form.value.name;
     this.authService.register(email, password, name).subscribe((result) => {
       if (result.error) {
-        console.log(result.error);
+        if (result.error.message === 'User already registered') {
+          this.User_already_registered.set(true);
+        }
       } else {
         console.log(result.data);
       }
