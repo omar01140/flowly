@@ -16,12 +16,13 @@ export class AuthComponent {
 
   private form = viewChild<NgForm>('form');
   User_already_registered = signal(false);
-  isLogin = false;
-  emailErr: string = `This Email is already registered`;
+  loginErr = signal(false);
+  isLogin = true;
 
   onSwitch() {
     this.isLogin = !this.isLogin;
     this.User_already_registered.set(false);
+    this.loginErr.set(false);
     this.form()?.reset();
   }
 
@@ -39,18 +40,32 @@ export class AuthComponent {
     if (formData.invalid) {
       return;
     }
+
     const email = formData.form.value.email;
     const password = formData.form.value.password;
     const name = formData.form.value.name;
-    this.authService.register(email, password, name).subscribe((result) => {
-      if (result.error) {
-        if (result.error.message === 'User already registered') {
-          this.User_already_registered.set(true);
+
+    if (this.isLogin) {
+      this.authService.login(email, password).subscribe((result) => {
+        if (result.error) {
+          if (result.error.code === 'invalid_credentials') {
+            this.loginErr.set(true);
+          }
+        } else {
+          console.log(result.data);
         }
-      } else {
-        console.log(result.data);
-      }
-    });
-    formData.reset();
+      });
+    } else {
+      this.authService.register(email, password, name).subscribe((result) => {
+        if (result.error) {
+          if (result.error.message === 'User already registered') {
+            this.User_already_registered.set(true);
+          }
+        } else {
+          console.log(result.data);
+        }
+      });
+    }
+    this.form()?.controls['password'].reset();
   }
 }
